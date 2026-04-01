@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi Ekosistem Pertanian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Memastikan modal tersembunyi dengan benar saat awal load */
+        .hidden { display: none !important; }
+        #customModal {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-6">
+
+    <div class="registration-card bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+        <div class="text-center mb-8">
+            <div class="icon-container bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-seedling text-green-700 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-green-800">Registrasi Mitra</h2>
+            <p class="text-gray-500 text-sm">Data akan tersimpan otomatis ke Google Sheets</p>
+        </div>
+
+        <form id="mitraForm" class="space-y-4">
+            
+            <div class="grid grid-cols-1 gap-4">
+                <div class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700">Username (Wajib Email)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-envelope"></i> 
+                        </span>
+                        <input 
+                            type="email" 
+                            name="username" 
+                            id="username" 
+                            placeholder="contoh@email.com" 
+                            required 
+                            class="input-field pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
+                            oninvalid="this.setCustomValidity('Harap masukkan format email yang benar (contoh: nama@mail.com)')"
+                            oninput="this.setCustomValidity('')"
+                        >
+                    </div>
+                    <p class="text-[10px] text-red-500 mt-1 italic">*Gunakan alamat email aktif Anda</p>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" name="password" id="password" placeholder="Min. 8 karakter..." required class="input-field pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-gray-100 my-2">
+
+            <div class="form-group">
+                <label class="label-title block mb-1 font-semibold text-gray-700">Daftar Sebagai</label>
+                <select name="peran" id="peran" class="input-field w-full p-2 rounded-lg bg-green-50 border border-green-200 font-bold text-green-800 outline-none cursor-pointer">
+                    <option value="petani">👨‍🌾 Petani (Produsen)</option>
+                    <option value="pabrik">🏭 Pabrik (Pengolahan)</option>
+                    <option value="distro">🚚 Distro (Distribusi)</option>
+                    <option value="konsumen">🛒 Konsumen (Pembeli)</option>
+                </select>
+            </div>
+
+            <hr class="border-gray-100 my-2">
+
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <label id="label-nama" class="label-title block mb-1 font-semibold text-gray-700">Nama Lengkap</label>
+                <input type="text" name="nama" id="nama" placeholder="Masukkan nama..." required class="input-field w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 outline-none transition">
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700 text-sm">Provinsi</label>
+                    <select id="provinsi" class="input-field w-full border border-gray-300 rounded-lg p-2 text-sm outline-none"><option value="">Memuat Provinsi...</option></select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700 text-sm">Kota / Kabupaten</label>
+                    <select id="kota" class="input-field w-full border border-gray-300 rounded-lg p-2 text-sm outline-none" disabled><option value="">Pilih Kota...</option></select>
+                </div>
+
+                <div id="row-kecamatan" class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700 text-sm">Kecamatan</label>
+                    <select id="kecamatan" class="input-field w-full border border-gray-300 rounded-lg p-2 text-sm outline-none" disabled><option value="">Pilih Kecamatan...</option></select>
+                </div>
+
+                <div id="row-desa" class="form-group">
+                    <label class="label-title block mb-1 font-semibold text-gray-700 text-sm">Desa / Kelurahan</label>
+                    <select id="desa" class="input-field w-full border border-gray-300 rounded-lg p-2 text-sm outline-none" disabled><option value="">Pilih Desa...</option></select>
+                </div>
+            </div>
+<div class="form-group flex items-start gap-3 mt-4">
+    <input 
+        type="checkbox" 
+        id="setujuSyarat" 
+        required 
+        class="mt-1 w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
+    >
+    <label for="setujuSyarat" class="text-xs text-gray-600 leading-tight cursor-pointer">
+        Saya menyetujui <a href="#" class="text-green-700 font-bold hover:underline">Syarat & Ketentuan</a> serta kebijakan privasi yang berlaku di Ekosistem Pertanian.
+    </label>
+</div>
+            <button type="submit" id="btnSubmit" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 rounded-xl transition duration-300 shadow-lg mt-4 flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i> Konfirmasi Pendaftaran
+            </button>
+
+            <div class="text-center mt-6 pt-4 border-t border-gray-100">
+                <p class="text-sm text-gray-600">
+                    Sudah memiliki akun? 
+                    <a href="login_sig.html" class="text-green-700 font-bold hover:underline">Masuk di sini</a>
+                </p>
+
+
+
+
+
+
+
+
+                 <p class="text-sm text-gray-600">
+                    
+                </p>
+
+                <a href="https://wa.me/081244858962?text=Halo%20Admin,%20saya%20ingin%20bertanya%20terkait%20pendaftaran%20Mitra%20Pertanian" class="text-green-700 font-bold hover:underline">Hubungi Kami</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="customModal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center border border-gray-100 transform transition-all">
+            <div id="modalIcon" class="text-5xl mb-4"></div>
+            <h3 id="modalTitle" class="text-2xl font-bold mb-2"></h3>
+            <p id="modalMessage" class="text-gray-500 mb-6 text-sm"></p>
+            <button id="modalBtn" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 rounded-lg transition duration-300">
+                OKE
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Distro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-orange-50 min-h-screen">
+    <nav class="bg-orange-600 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <span class="font-bold text-xl"><i class="fas fa-truck mr-2"></i> Panel Distribusi</span>
+            <a href="index.html" class="bg-orange-500 hover:bg-red-600 px-4 py-2 rounded-lg transition text-sm">Keluar</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h3 class="font-bold text-lg text-orange-800 mb-4"><i class="fas fa-chart-line mr-2"></i> Harga Rata-Rata Daerah</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="py-2">Wilayah</th>
+                            <th class="py-2">Komoditas</th>
+                            <th class="py-2">Harga Avg</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600">
+                        <tr><td class="py-2">Jawa Tengah</td><td class="py-2">Padi IR64</td><td class="py-2">Rp 12.500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

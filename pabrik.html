@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pabrik - Panel Pengolahan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .loader { border-top-color: #4f46e5; animation: spinner 0.6s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <div id="sync-loader" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center">
+        <div class="loader w-12 h-12 border-4 border-slate-200 rounded-full mb-4"></div>
+        <p class="text-slate-500 font-bold animate-pulse text-sm">Menyingkronkan Status Akun...</p>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <nav class="bg-indigo-900 text-white p-4 shadow-xl">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-700 p-2 rounded-lg"><i class="fas fa-industry text-xl"></i></div>
+                    <div>
+                        <span class="font-black tracking-tight block">PANEL PENGOLAHAN</span>
+                        <span id="user-display" class="text-[10px] text-indigo-300 uppercase font-bold text-left">Pabrik Aktif</span>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-xl transition text-xs font-bold shadow-lg">
+                    <i class="fas fa-sign-out-alt mr-2"></i> KELUAR
+                </button>
+            </div>
+        </nav>
+
+        <div class="container mx-auto p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-indigo-50">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-indigo-950 mb-3 text-left">Informasi Mitra Penggilingan</h3>
+                    <p class="text-gray-500 text-sm mb-6 leading-relaxed text-left">Pantau kapasitas produksi harian dan status kontrak kerja sama.</p>
+                    <button class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black transition active:scale-95">CEK MITRA SEKARANG</button>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-indigo-50">
+                    <div class="w-12 h-12 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-indigo-950 mb-3 text-left">Kontrol Stok Masuk</h3>
+                    <p class="text-gray-500 text-sm mb-6 leading-relaxed text-left">Lihat ketersediaan stok gabah di setiap gudang petani mitra.</p>
+                    <button class="w-full py-4 bg-indigo-900 text-white rounded-2xl font-black transition active:scale-95">MONITOR STOK AKTIF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GANTI URL INI DENGAN URL WEB APP KAMU YANG ASLI
+        const scriptURL = 'MASUKKAN_URL_SCRIPT_EXEC_ANDA_DI_SINI';
+
+        async function checkLatestStatus() {
+            // Periksa apakah username ada. Pastikan di login_sig.html kamu simpan item bernama "username"
+            const storedUsername = localStorage.getItem("username");
+            const loader = document.getElementById("sync-loader");
+            
+            if (!storedUsername) {
+                console.error("Username tidak ditemukan di localStorage");
+                window.location.href = "login_sig.html"; //
+                return;
+            }
+
+            try {
+                // Fetch data dari Google Sheets
+                const response = await fetch(`${scriptURL}?action=read`);
+                const allData = await response.json();
+                
+                // Cari data yang usernamenya cocok
+                const myAccount = allData.find(u => String(u.username).trim() === String(storedUsername).trim());
+                
+                if (myAccount) {
+                    // Simpan status terbaru ke localStorage
+                    localStorage.setItem("verifikasi", myAccount.status);
+                    renderPage(myAccount.status);
+                } else {
+                    // Jika tidak ketemu di database, pakai status lama yang ada di browser saja
+                    renderPage(localStorage.getItem("verifikasi") || "PENDING");
+                }
+            } catch (e) {
+                console.error("Koneksi gagal, menggunakan cache lokal:", e);
+                renderPage(localStorage.getItem("verifikasi") || "PENDING");
+            } finally {
+                if(loader) loader.classList.add("hidden");
+            }
+        }
+
+        function renderPage(status) {
+            const namaUser = localStorage.getItem("nama") || "Mitra Pabrik";
+            const userDisplay = document.getElementById("user-display");
+            const mainContent = document.getElementById("main-content");
+
+            if (userDisplay) userDisplay.innerText = "Pabrik: " + namaUser;
+
+            if (status === "VERIFIED") {
+                mainContent.classList.remove("hidden");
+            } else {
+                showPendingOverlay(namaUser);
+            }
+        }
+
+        function showPendingOverlay(nama) {
+            // Hapus overlay lama jika ada supaya tidak double
+            const oldOverlay = document.getElementById("pending-overlay");
+            if (oldOverlay) oldOverlay.remove();
+
+            const overlay = document.createElement("div");
+            overlay.id = "pending-overlay";
+            overlay.className = "fixed inset-0 flex items-center justify-center bg-slate-100 p-6 z-[90]";
+            overlay.innerHTML = `
+                <div class="bg-white p-10 rounded-[3rem] shadow-2xl max-w-md text-center border-t-8 border-yellow-500">
+                    <div class="w-24 h-24 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                        <i class="fas fa-user-clock text-4xl animate-pulse"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-gray-800">Akun Tertunda</h2>
+                    <p class="text-gray-500 mt-4 leading-relaxed">Halo <b>${nama}</b>, pendaftaran pabrik Anda sedang ditinjau.</p>
+                    <div class="bg-indigo-50 p-6 rounded-3xl mt-8 text-sm text-indigo-900 text-left border border-indigo-100">
+                        <p class="font-black mb-3 uppercase text-[10px]">Langkah Verifikasi:</p>
+                        <ul class="space-y-3 font-medium">
+                            <li>• Cek <b>Email</b> syarat & ketentuan.</li>
+                            <li>• Kirim dokumen melalui balasan email.</li>
+                            <li>• Tunggu admin (Maks 24 Jam).</li>
+                        </ul>
+                    </div>
+                    <button onclick="logout()" class="block w-full mt-10 text-gray-400 font-bold hover:text-red-600 text-sm">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Keluar ke Login
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = "login_sig.html"; //
+        }
+
+        window.onload = checkLatestStatus;
+    </script>
+</body>
+</html>

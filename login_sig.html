@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ekosistem Pertanian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden { display: none !important; }
+        #customModal { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-6">
+
+    <div class="registration-card bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+        <div class="text-center mb-8">
+            <div class="icon-container bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-user-lock text-green-700 text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-green-800">Selamat Datang</h2>
+            <p class="text-gray-500 text-sm">Masuk ke panel mitra Anda</p>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+            <div class="form-group">
+                <label class="label-title block mb-1 font-semibold text-gray-700">Username</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <input type="text" id="loginUser" placeholder="Masukkan username" required class="input-field pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 outline-none transition">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="label-title block mb-1 font-semibold text-gray-700">Password</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                        <i class="fas fa-key"></i>
+                    </span>
+                    <input type="password" id="loginPass" placeholder="Masukkan password" required class="input-field pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-green-500 outline-none transition">
+                </div>
+            </div>
+<div class="form-group flex items-start gap-3 mt-4">
+    <input 
+        type="checkbox" 
+        id="setujuSyarat" 
+        required 
+        class="mt-1 w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
+    >
+    <label for="setujuSyarat" class="text-xs text-gray-600 leading-tight cursor-pointer">
+        Saya menyetujui <a href="#" class="text-green-700 font-bold hover:underline">Syarat & Ketentuan</a> serta kebijakan privasi yang berlaku di Ekosistem Pertanian.
+    </label>
+</div>
+            <button type="submit" id="btnLogin" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 rounded-xl transition duration-300 shadow-lg flex items-center justify-center">
+                <i class="fas fa-sign-in-alt mr-2"></i> Masuk Sekarang
+            </button>
+
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-500">
+                    Belum punya akun? 
+                    <a href="login.html" class="text-green-700 font-bold hover:underline">Daftar di sini</a>
+
+                </p>
+                <a href="https://wa.me/081244858962?text=Halo%20Admin,%20saya%20ingin%20bertanya%20terkait%20pendaftaran%20Mitra%20Pertanian" class="text-green-700 font-bold hover:underline">Hubungi Kami</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="customModal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center border border-gray-100">
+            <div id="modalIcon" class="text-5xl mb-4"></div>
+            <h3 id="modalTitle" class="text-2xl font-bold mb-2"></h3>
+            <p id="modalMessage" class="text-gray-500 mb-6 text-sm"></p>
+            <button id="modalBtn" class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 rounded-lg transition duration-300">
+                OKE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const btnLogin = document.getElementById('btnLogin');
+        const customModal = document.getElementById('customModal');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalBtn = document.getElementById('modalBtn');
+        
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxz6sMuS8un2-CltlwVNGek0INO3tfYONVruEw5G1ApaAZT9I0wCp3RqTBagryVxTAJ/exec'; 
+
+        // Fungsi Tampilkan Modal
+        function showModal(title, message, type, redirect = null) {
+            modalTitle.innerText = title;
+            modalMessage.innerText = message;
+            
+            if (type === 'success') {
+                modalIcon.innerHTML = 'BERHASIL';
+                modalIcon.className = 'text-5xl mb-4 text-green-500';
+            } else {
+                modalIcon.innerHTML = 'GAGAL';
+                modalIcon.className = 'text-5xl mb-4 text-red-500';
+            }
+
+            customModal.classList.remove('hidden');
+
+            modalBtn.onclick = () => {
+                customModal.classList.add('hidden');
+                if (redirect) window.location.href = redirect;
+            };
+        }
+
+loginForm.addEventListener('submit', e => {
+            e.preventDefault();
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memverifikasi...';
+
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+
+            // Memanggil Apps Script untuk verifikasi login
+            fetch(`${scriptURL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        // --- TAMBAHAN KUNCI: MENYIMPAN DATA KE BROWSER ---
+                        // 'username' digunakan untuk mencocokkan data saat sinkronisasi di halaman pabrik
+                        localStorage.setItem("username", user); 
+                        localStorage.setItem("nama", data.nama);
+                        localStorage.setItem("verifikasi", data.verifikasi); 
+                        localStorage.setItem("peran", data.peran);
+                        // ------------------------------------------------
+
+                        showModal('Berhasil!', `Selamat datang kembali, ${data.nama}`, 'success', data.peran + '.html');
+                    } else {
+                        showModal('Gagal!', 'Username atau Password salah!', 'error');
+                        btnLogin.disabled = false;
+                        btnLogin.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Sekarang';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    showModal('Error!', 'Gagal terhubung ke server.', 'error');
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Coba Lagi';
+                });
+        });
+    </script>
+</body>
+</html>

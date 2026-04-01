@@ -1,0 +1,132 @@
+/* style.css */
+
+/* Reset & Base Font */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styling */
+.registration-card {
+    transition: transform 0.3s ease;
+}
+
+/* Typography */
+.label-title {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #374151; /* Gray-700 */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+}
+
+/* Input Group & Icons */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.inset-y-0 {
+    top: 0;
+    bottom: 0;
+}
+
+.pl-10 {
+    padding-left: 2.75rem;
+}
+
+/* Input Field Styling */
+.input-field {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1.5px solid #d1d5db; /* Gray-300 */
+    border-radius: 0.6rem;
+    font-size: 0.95rem;
+    color: #1f2937;
+    outline: none;
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+.input-field:focus {
+    border-color: #15803d; /* Green-700 */
+    box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.15);
+}
+
+.input-field::placeholder {
+    color: #9ca3af;
+}
+
+/* Disabled State */
+.input-field:disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+    border-color: #e5e7eb;
+}
+
+/* Button Styling */
+.btn-submit {
+    width: 100%;
+    background-color: #15803d; /* Green-700 */
+    color: white;
+    font-weight: 700;
+    padding: 0.85rem;
+    border-radius: 0.6rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-submit:hover {
+    background-color: #166534; /* Green-800 */
+    box-shadow: 0 10px 15px -3px rgba(22, 101, 52, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-submit:active {
+    transform: scale(0.97);
+}
+
+.btn-submit:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+.text-green-700 {
+    color: #15803d;
+}
+
+/* Animation for loading icon */
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
