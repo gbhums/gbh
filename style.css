@@ -1,0 +1,183 @@
+/* --- RESET DASAR --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #000;
+    /* Panggil gambar background kamu */
+    background-image: url('bg.jpg'); 
+    background-repeat: repeat; 
+    background-size: 150px; 
+    animation: move-background 15s linear infinite;
+    position: relative;
+}
+
+@keyframes move-background {
+    from { background-position: 0 0; }
+    to { background-position: 500px 500px; }
+}
+
+/* --- LAYER MARQUEE (DI BELAKANG) --- */
+.marquee-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Memberi jarak otomatis antar baris */
+    z-index: 1; /* Di bawah kartu */
+    pointer-events: none;
+}
+
+marquee {
+    background: rgba(0, 0, 0, 0.8);
+    color: #ff0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 0, 0.2);
+}
+
+.green { color: #0f0; }
+.red { color: #f00; }
+
+/* --- CONTAINER UTAMA --- */
+.container {
+    position: relative;
+    z-index: 10; /* Biar di depan marquee */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- KARTU GACOR --- */
+.glass-card {
+    background: rgba(10, 10, 10, 0.95);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+}
+
+h1 {
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 15px 0;
+    text-transform: uppercase;
+    animation: neon-flicker 0.15s infinite;
+}
+
+@keyframes neon-flicker {
+    0%, 100% { text-shadow: 0 0 10px #ff0; color: #fff; }
+    50% { text-shadow: none; color: #ffd700; }
+}
+
+/* --- BOX ESTIMASI --- */
+.jackpot-box {
+    background: #000;
+    border: 1px solid #444;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.jackpot-box p {
+    color: #888;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.blink-yellow {
+    color: #ffd700;
+    font-size: 2.2rem;
+    font-weight: 900;
+    animation: blinker 0.5s step-end infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+/* --- PROGRESS BAR --- */
+.loader-container {
+    background: #222;
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #f00, #ff0, #0f0);
+    height: 100%;
+    width: 75%;
+    animation: progress-move 2s linear infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes progress-move {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
+}
+
+.status-text {
+    color: #ccc;
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.blink-slow {
+    color: #0f0;
+    font-weight: bold;
+}
+
+/* --- TOMBOL --- */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    text-decoration: none;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.btn-gold {
+    background: linear-gradient(to bottom, #ffd700, #b8860b);
+    color: #000;
+}
+
+.btn-red {
+    background: #ff0000;
+    color: #fff;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
