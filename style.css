@@ -1,4 +1,3 @@
-/* --- RESET DASAR --- */
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +13,6 @@ body {
     justify-content: center;
     overflow: hidden;
     background-color: #000;
-    /* Panggil gambar background kamu */
     background-image: url('bg.jpg'); 
     background-repeat: repeat; 
     background-size: 150px; 
@@ -27,7 +25,6 @@ body {
     to { background-position: 500px 500px; }
 }
 
-/* --- LAYER MARQUEE (DI BELAKANG) --- */
 .marquee-bg {
     position: absolute;
     top: 0;
@@ -36,8 +33,8 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around; /* Memberi jarak otomatis antar baris */
-    z-index: 1; /* Di bawah kartu */
+    justify-content: space-around; 
+    z-index: 1; 
     pointer-events: none;
 }
 
@@ -54,17 +51,15 @@ marquee {
 .green { color: #0f0; }
 .red { color: #f00; }
 
-/* --- CONTAINER UTAMA --- */
 .container {
     position: relative;
-    z-index: 10; /* Biar di depan marquee */
+    z-index: 10; 
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* --- KARTU GACOR --- */
 .glass-card {
     background: rgba(10, 10, 10, 0.95);
     border: 2px solid #ffd700;
@@ -89,7 +84,6 @@ h1 {
     50% { text-shadow: none; color: #ffd700; }
 }
 
-/* --- BOX ESTIMASI --- */
 .jackpot-box {
     background: #000;
     border: 1px solid #444;
@@ -116,7 +110,6 @@ h1 {
     50% { opacity: 0; }
 }
 
-/* --- PROGRESS BAR --- */
 .loader-container {
     background: #222;
     height: 10px;
@@ -150,7 +143,6 @@ h1 {
     font-weight: bold;
 }
 
-/* --- TOMBOL --- */
 .action-buttons {
     display: flex;
     gap: 10px;
